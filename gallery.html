@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✦ A Gallery of You ✨</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      background:
+        radial-gradient(circle at top,
+          rgba(236,72,153,.18), transparent 35%),
+        radial-gradient(circle at 80% 20%,
+          rgba(168,85,247,.18), transparent 25%),
+        linear-gradient(180deg, #09050f, #14091f);
+    }
+
+    .glass {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .photo-card {
+      transition: .4s;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-8px) scale(1.03);
+    }
+  </style>
+</head>
+<body class="text-white">
+
+  <main class="max-w-7xl mx-auto p-6">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <p class="uppercase tracking-[0.3em] text-pink-200 text-sm">
+        Beautiful Memories
+      </p>
+
+      <h1 class="text-5xl font-black mt-3">
+        A Gallery of You ✨
+      </h1>
+
+      <p class="text-white/70 mt-4 max-w-2xl mx-auto">
+        Some smiles deserve their own universe.
+        Here are a few moments that make the world brighter.
+      </p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/1.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/2.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/3.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/4.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/5.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
+        <img src="./image/6.jpg"
+             class="w-full h-96 object-cover rounded-[1.5rem]">
+      </div>
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-12 text-center">
+      <a href="index.html"
+         class="inline-flex items-center gap-2 rounded-full
+                bg-white/10 px-6 py-3 font-semibold
+                hover:bg-white/20 transition">
+
+        <i data-lucide="arrow-left"></i>
+        Back to Birthday Page
+      </a>
+    </div>
+    
+  </main>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
