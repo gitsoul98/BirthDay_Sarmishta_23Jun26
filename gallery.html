@@ -1,111 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>✦ A Gallery of You ✨</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
+      font-family: "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      color: white;
+      min-height: 100vh;
       background:
-        radial-gradient(circle at top,
-          rgba(236,72,153,.18), transparent 35%),
-        radial-gradient(circle at 80% 20%,
-          rgba(168,85,247,.18), transparent 25%),
-        linear-gradient(180deg, #09050f, #14091f);
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 180, .25), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(166, 0, 255, .22), transparent 28%),
+        radial-gradient(circle at 50% 80%, rgba(255, 100, 200, .18), transparent 35%),
+        linear-gradient(135deg, #080511, #12051d, #1b0929, #090510);
+      background-size: 400% 400%;
+      animation: bgMove 18s ease infinite;
+      position: relative;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: -300px;
+      left: -300px;
+      width: 700px;
+      height: 700px;
+      background: rgba(255, 0, 150, .10);
+      animation: blob1 12s infinite alternate;
+    }
+
+    body::after {
+      right: -250px;
+      bottom: -250px;
+      width: 650px;
+      height: 650px;
+      background: rgba(155, 0, 255, .10);
+      animation: blob2 15s infinite alternate;
+    }
+
+    @keyframes blob1 {
+      from { transform: translate(0, 0); }
+      to { transform: translate(150px, 100px); }
+    }
+
+    @keyframes blob2 {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-150px, -80px); }
     }
 
     .glass {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, .07);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, .16);
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, .35),
+        0 0 20px rgba(255, 0, 170, .15),
+        0 0 50px rgba(140, 0, 255, .12);
+      border-radius: 28px;
+      overflow: hidden;
+      padding: 15px;
+      transition: .5s ease;
+      position: relative;
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      top: -120%;
+      left: -50%;
+      width: 60%;
+      height: 250%;
+      background: rgba(255, 255, 255, .16);
+      transform: rotate(25deg);
+      transition: .7s;
+      pointer-events: none;
+    }
+
+    .glass:hover::before {
+      left: 160%;
     }
 
     .photo-card {
-      transition: .4s;
+      perspective: 1400px;
+      min-height: 460px;
+      animation: float 6s ease-in-out infinite;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .photo-card:nth-child(even) {
+      animation-delay: 1s;
+    }
+
+    .photo-card:nth-child(3n) {
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      transform-style: preserve-3d;
+      transition: transform 1s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .photo-card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .card-front {
+      transform: rotateY(0deg);
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,.15), transparent 35%),
+        linear-gradient(135deg, rgba(255,79,162,.95), rgba(159,77,255,.95));
+      box-shadow:
+        inset 0 0 40px rgba(255,255,255,.12),
+        0 0 60px rgba(255, 0, 170, .25);
     }
 
     .photo-card:hover {
-      transform: translateY(-8px) scale(1.03);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow:
+        0 20px 45px rgba(255, 0, 170, .30),
+        0 0 60px rgba(150, 0, 255, .35);
+    }
+
+    .image-box {
+      overflow: hidden;
+      border-radius: 22px;
+      position: relative;
+      height: 100%;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+      transition: transform 1s ease, filter .4s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.14) rotate(2deg);
+      filter: saturate(1.2) contrast(1.08);
+    }
+
+    .image-box::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, .50),
+        transparent
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+    }
+
+    .photo-card:hover .image-box::after {
+      animation: shine .9s;
+    }
+
+    @keyframes shine {
+      100% { left: 180%; }
+    }
+
+    .caption-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .16);
+      border: 1px solid rgba(255, 255, 255, .18);
+      backdrop-filter: blur(10px);
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 16px;
+      animation: badgePop .7s ease both;
+    }
+
+    @keyframes badgePop {
+      0% {
+        opacity: 0;
+        transform: scale(.6) translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .caption-text {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      font-weight: 600;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, .25);
+      max-width: 320px;
+      animation: captionIn .8s ease both;
+    }
+
+    @keyframes captionIn {
+      0% {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tap-hint {
+      margin-top: 14px;
+      font-size: .88rem;
+      opacity: .9;
+      animation: pulseHint 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseHint {
+      0%, 100% { opacity: .65; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-2px); }
+    }
+
+    #gallery {
+      margin-top: 60px;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      width: 12px;
+      height: 18px;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 1.8s linear forwards;
+      opacity: .95;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translate(-50%, -40px) rotate(0deg) scale(1);
+      }
+      100% {
+        transform: translate(calc(-50% + var(--x)), 110vh) rotate(720deg) scale(.85);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(255,255,255,.95);
+      pointer-events: none;
+      animation: sparkleMove 1.2s ease-out forwards;
+      z-index: 3;
+    }
+
+    @keyframes sparkleMove {
+      0% {
+        opacity: 0;
+        transform: scale(.4);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(1.4);
+      }
+    }
+
+    .corner-star {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.20);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 24px rgba(255, 0, 170, .18);
+      animation: spinGlow 5s linear infinite;
+    }
+
+    @keyframes spinGlow {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .back-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+
+    .back-sub {
+      font-size: .92rem;
+      opacity: .95;
+      margin-top: 12px;
+      letter-spacing: .3px;
+    }
+
+    @media (max-width: 768px) {
+      .photo-card {
+        min-height: 330px;
+      }
+
+      .image-box img {
+        height: 300px;
+      }
+
+      .card-inner {
+        min-height: 330px;
+      }
+
+      .back-title {
+        font-size: 1.5rem;
+      }
+
+      .caption-text {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .photo-card {
+        min-height: 290px;
+      }
+
+      .image-box img {
+        height: 250px;
+      }
+
+      .card-inner {
+        min-height: 290px;
+      }
+
+      .caption-text {
+        font-size: .98rem;
+      }
     }
   </style>
 </head>
+
 <body class="text-white">
-
-  <main class="max-w-7xl mx-auto p-6">
-
-    <!-- Header -->
-    <div class="text-center mb-12">
+  <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="text-center mb-12 pt-4">
       <p class="uppercase tracking-[0.3em] text-pink-200 text-sm">
         Beautiful Memories
       </p>
 
-      <h1 class="text-5xl font-black mt-3">
+      <h1 class="text-4xl sm:text-5xl font-black mt-3">
         A Gallery of You ✨
       </h1>
 
-      <p class="text-white/70 mt-4 max-w-2xl mx-auto">
-        Some smiles deserve their own universe.
-        Here are a few moments that make the world brighter.
+      <p class="text-white/70 mt-4 max-w-2xl mx-auto text-sm sm:text-base">
+        Click any photo to flip it, see a funny caption, and enjoy a little confetti chaos.
       </p>
     </div>
 
-    <!-- Gallery -->
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div id="gallery" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
 
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/1.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/2.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/3.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/4.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/5.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-      <div class="photo-card glass rounded-[2rem] overflow-hidden p-3">
-        <img src="./image/6.jpg"
-             class="w-full h-96 object-cover rounded-[1.5rem]">
-      </div>
-
-    </div>
-
-    <!-- Back Button -->
     <div class="mt-12 text-center">
       <a href="index.html"
-         class="inline-flex items-center gap-2 rounded-full
-                bg-white/10 px-6 py-3 font-semibold
-                hover:bg-white/20 transition">
-
+         class="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-semibold
+                hover:bg-white/20 transition-all duration-300 hover:scale-105">
         <i data-lucide="arrow-left"></i>
         Back to Birthday Page
       </a>
     </div>
-    
   </main>
 
   <script>
+    const captions = [
+      "😂 Camera loves you more than homework.",
+      "🤭 Smile detected. Mission Successful.",
+      "🏆 Certified Birthday Queen.",
+      "🤣 This pose deserves an Oscar.",
+      "☕ Coffee > Sleep.",
+      "🍕 Powered by Cake.",
+      "📸 100% Screenshot Worthy.",
+      "🎭 Professional Drama Artist.",
+      "😂 Still pretending to be innocent.",
+      "🚀 Too cool for normal photos.",
+      "🎉 Happiness Level : Unlimited.",
+      "🌸 Just another awesome memory.",
+      "🎂 Cake Calories Don't Count Today.",
+      "🔥 Looking legendary.",
+      "💖 Thanks for being an amazing friend."
+    ];
+
+    const gallery = document.getElementById("gallery");
+
+    function createSparkles(card) {
+      const rect = card.getBoundingClientRect();
+      for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+        sparkle.style.left = `${Math.random() * rect.width}px`;
+        sparkle.style.top = `${Math.random() * rect.height}px`;
+        sparkle.style.setProperty("--dx", `${(Math.random() - 0.5) * 180}px`);
+        sparkle.style.setProperty("--dy", `${(Math.random() - 0.5) * 180}px`);
+        sparkle.style.background = [
+          "#ffffff",
+          "#ff7ad9",
+          "#c77dff",
+          "#ffd166",
+          "#80ffdb"
+        ][Math.floor(Math.random() * 5)];
+        card.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1200);
+      }
+    }
+
+    function launchConfetti() {
+      const colors = ["#ff4fa2", "#9f4dff", "#ffffff", "#ffd166", "#80ffdb"];
+      for (let i = 0; i < 24; i++) {
+        const conf = document.createElement("div");
+        conf.className = "confetti";
+        conf.style.left = `${50 + (Math.random() * 18 - 9)}%`;
+        conf.style.setProperty("--x", `${(Math.random() * 2 - 1) * 180}px`);
+        conf.style.background = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+        conf.style.width = `${8 + Math.random() * 8}px`;
+        conf.style.height = `${10 + Math.random() * 12}px`;
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 2000);
+      }
+    }
+
+    for (let i = 1; i <= 15; i++) {
+      const caption = captions[i - 1] || "✨ Another awesome memory ✨";
+
+      gallery.innerHTML += `
+        <div class="photo-card">
+          <div class="card-inner">
+            <div class="card-face card-front glass">
+              <div class="corner-star">✨</div>
+              <div class="image-box">
+                <img src="./image/img${i}.jpg"
+                     alt="Photo ${i}"
+                     loading="lazy"
+                     draggable="false">
+              </div>
+            </div>
+
+            <div class="card-face card-back glass">
+              <div class="caption-badge">🎉 Funny Caption</div>
+              <div class="back-title">Photo ${i}</div>
+              <div class="caption-text">${caption}</div>
+              <div class="back-sub">Click again to flip back • Auto reset in 5 seconds</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    const cards = document.querySelectorAll(".photo-card");
+
+    cards.forEach((card) => {
+      let timer = null;
+
+      card.addEventListener("click", () => {
+        const isFlipped = card.classList.contains("flipped");
+
+        if (!isFlipped) {
+          cards.forEach((other) => {
+            if (other !== card) other.classList.remove("flipped");
+          });
+
+          card.classList.add("flipped");
+          createSparkles(card);
+          launchConfetti();
+
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            card.classList.remove("flipped");
+          }, 5000);
+        } else {
+          card.classList.remove("flipped");
+          clearTimeout(timer);
+        }
+      });
+    });
+
     lucide.createIcons();
   </script>
-
 </body>
 </html>
