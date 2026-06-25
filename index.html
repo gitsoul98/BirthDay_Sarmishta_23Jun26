@@ -711,23 +711,200 @@
     });
 
 
-    document.getElementById('secretBtn').addEventListener('click', () => {
-  Swal.fire({
-    title: 'A Tiny Surprise ✨',
-    html: `
-      <p style="line-height:1.8">
-       I need a tiny favor... 📸
-Send me 10–20 of your favorite photos.
-Trust me, it'll be worth it. ✨🎁
-      </p>
-    `,
-    icon: 'question',
-    confirmButtonText: 'I\'ll send them 😊',
-    background: '#1a1026',
-    color: '#fff',
-    confirmButtonColor: '#ec4899'
-  });
+document.getElementById("secretBtn").addEventListener("click", () => {
+
+    Swal.fire({
+        title: "🎁 One More Surprise?",
+        html: `
+            <div style="line-height:1.8;font-size:16px;">
+                <h3 style="font-size:22px;margin-bottom:10px;">
+                    😏 Wait... You're not done yet!
+                </h3>
+
+                <p>
+                    Are you ready to unlock
+                    <b>one more surprise</b>? ✨
+                </p>
+
+                <p style="margin-top:10px;">
+                    I promise...
+                    <br>
+                    It's worth clicking. 😄
+                </p>
+            </div>
+        `,
+        background: "#1a1026",
+        color: "#fff",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "🎉 YES!!",
+        cancelButtonText: "Nooooooo",
+        confirmButtonColor: "#ec4899",
+        cancelButtonColor: "#6b7280",
+        allowOutsideClick: false
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            Swal.fire({
+                icon: "success",
+                title: "Let's Go! 🚀",
+                text: "Opening the surprise...",
+                timer: 1200,
+                showConfirmButton: false,
+                background: "#1a1026",
+                color: "#fff"
+            }).then(() => {
+
+                window.location.href = "gallery.html";
+
+            });
+
+        } else {
+
+            askAgain();
+
+        }
+
+    });
+
 });
+
+
+function askAgain() {
+
+    Swal.fire({
+
+        title: "😂 Are You Sure?",
+        html: `
+            <p style="line-height:1.8">
+
+                You came this far...
+
+                <br><br>
+
+                Don't tell me you're scared of a tiny surprise. 👀
+
+                <br><br>
+
+                Give it a chance? 🥹
+
+            </p>
+        `,
+        icon: "warning",
+        background: "#1a1026",
+        color: "#fff",
+        showCancelButton: true,
+        confirmButtonText: "😅 Okay Fine",
+        cancelButtonText: "Still No",
+        confirmButtonColor: "#ec4899",
+        cancelButtonColor: "#6b7280",
+        allowOutsideClick: false
+
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            Swal.fire({
+
+                title: "Yayyyyy! 🎉",
+                text: "Taking you there...",
+                icon: "success",
+                timer: 1200,
+                showConfirmButton: false,
+                background: "#1a1026",
+                color: "#fff"
+
+            }).then(() => {
+
+                window.location.href = "gallery.html";
+
+            });
+
+        } else {
+
+            Swal.fire({
+
+                title: "🤣 Seriously?!",
+                html: `
+                    <h3>Last Chance 😤</h3>
+
+                    <p>
+                        Everyone clicks the surprise...
+                        <br><br>
+                        Why are YOU being difficult? 😂
+                        <br><br>
+                        Come on...
+                        Just one click! 🎁✨
+                    </p>
+                `,
+                icon: "info",
+                background: "#1a1026",
+                color: "#fff",
+                showCancelButton: true,
+                confirmButtonText: "😂 Fine, Let's Go",
+                cancelButtonText: "Nope 😎",
+                confirmButtonColor: "#ec4899",
+                cancelButtonColor: "#6b7280",
+                allowOutsideClick: false
+
+            }).then((finalChoice) => {
+
+                if (finalChoice.isConfirmed) {
+
+                    Swal.fire({
+
+                        title: "Mission Accomplished 😎",
+                        text: "Opening the surprise...",
+                        icon: "success",
+                        timer: 1200,
+                        showConfirmButton: false,
+                        background: "#1a1026",
+                        color: "#fff"
+
+                    }).then(() => {
+
+                        window.location.href = "gallery.html";
+
+                    });
+
+                } else {
+
+                    Swal.fire({
+
+                        title: "😂 You Win...",
+                        html: `
+                            <h2>Fineeeee 🙄</h2>
+
+                            <p>
+                                I'll let you go...
+                                <br><br>
+
+                                But remember...
+
+                                <br><br>
+
+                                You skipped a surprise! 🎁😂
+                            </p>
+                        `,
+                        icon: "error",
+                        background: "#1a1026",
+                        color: "#fff",
+                        confirmButtonText: "Maybe Later 😅",
+                        confirmButtonColor: "#ec4899"
+
+                    });
+
+                }
+
+            });
+
+        }
+
+    });
+
+}
   </script>
 </body>
 
