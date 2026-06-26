@@ -735,7 +735,7 @@ document.getElementById("secretBtn").addEventListener("click", () => {
         `,
         background: "#1a1026",
         color: "#fff",
-        icon: "question",
+        // icon: "question",
         showCancelButton: true,
         confirmButtonText: "🎉 YES!!",
         cancelButtonText: "Nooooooo",
@@ -747,19 +747,24 @@ document.getElementById("secretBtn").addEventListener("click", () => {
 
         if (result.isConfirmed) {
 
-            Swal.fire({
-                icon: "success",
-                title: "Let's Go! 🚀",
-                text: "Opening the surprise...",
-                timer: 1200,
-                showConfirmButton: false,
-                background: "#1a1026",
-                color: "#fff"
-            }).then(() => {
-
-                window.location.href = "gallery.html";
-
-            });
+           Swal.fire({
+        title: "🔓 Unlocking Memories...",
+        html: `
+            <h3 style="color:#ff7ad9">Access Granted</h3>
+            <p>Loading photos...</p>
+        `,
+        background: "#0b0615",
+        color: "#fff",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        timer: 2500,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    }).then(() => {
+        window.location.href = "gallery.html";
+    });
 
         } else {
 
